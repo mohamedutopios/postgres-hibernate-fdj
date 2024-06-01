@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>different-type-index.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Les index sont des structures de données spéciales qui améliorent la vitesse des opérations de récupération de données dans une table de base de données. PostgreSQL propose plusieurs types d'index, chacun ayant des utilisations spécifiques et des avantages uniques. Voici une explication détaillée des différents types d'index que vous pouvez utiliser dans PostgreSQL :</p>
+<h3 id="1-index-b-tree">1. Index B-tree</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Le type d'index par défaut dans PostgreSQL.</li>
+<li>Organisé sous forme d'arbre équilibré, permettant des recherches, insertions et suppressions en temps logarithmique.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes qui utilisent des opérations de comparaison d'égalité (<code>=</code>) et de comparaison de plage (<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</li>
+<li>Idéal pour les colonnes fréquemment utilisées dans les clauses <code>WHERE</code>, <code>ORDER BY</code> et <code>JOIN</code>.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_customer_id <span class="hljs-keyword">ON</span> orders(customer_id);
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Excellentes performances pour les recherches d'égalité et de plage.</li>
+<li>Maintient un bon équilibre entre les performances de lecture et d'écriture.</li>
+</ul>
+<h3 id="2-index-multicolonne">2. Index Multicolonne</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Un index qui inclut plusieurs colonnes.</li>
+<li>Utilise la structure B-tree par défaut pour les colonnes multiples.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes qui filtrent sur plusieurs colonnes.</li>
+<li>Les colonnes doivent être spécifiées dans l'ordre le plus souvent utilisé par les requêtes.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_customer_order_date <span class="hljs-keyword">ON</span> orders(customer_id, order_date);
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Améliore les performances des requêtes complexes utilisant plusieurs colonnes dans les clauses <code>WHERE</code> et <code>ORDER BY</code>.</li>
+</ul>
+<h3 id="3-index-partiel">3. Index Partiel</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Un index qui inclut seulement une partie des lignes de la table, selon une condition spécifiée.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes qui filtrent fréquemment sur une condition spécifique.</li>
+<li>Réduit l'espace disque et les coûts de maintenance pour les index.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_high_amount_orders <span class="hljs-keyword">ON</span> orders(amount) <span class="hljs-keyword">WHERE</span> amount &gt; <span class="hljs-number">500</span>;
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Réduit la taille de l'index et améliore les performances des requêtes spécifiques.</li>
+<li>Utile pour les colonnes avec une grande proportion de valeurs NULL ou pour les colonnes avec une condition de filtrage fréquente.</li>
+</ul>
+<h3 id="4-index-gin-generalized-inverted-index">4. Index GIN (Generalized Inverted Index)</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Conçu pour les types de données complexes tels que les tableaux, les <code>tsvector</code> pour la recherche en texte intégral, et les colonnes JSONB.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes qui utilisent des opérations de conteneur (<code>@&gt;</code>, <code>&lt;@</code>) et la recherche en texte intégral.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_jsonb_data <span class="hljs-keyword">ON</span> orders <span class="hljs-keyword">USING</span> GIN (jsonb_column);
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Très performant pour les recherches en texte intégral et les colonnes JSONB.</li>
+<li>Peut contenir plusieurs valeurs par ligne, optimisant les requêtes pour les types de données complexes.</li>
+</ul>
+<h3 id="5-index-gist-generalized-search-tree">5. Index GiST (Generalized Search Tree)</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Conçu pour des types de données spécifiques tels que les géométries spatiales, les recherches par proximité, et les types de données de l'extension PostGIS.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes spatiales, les recherches de proximité et les opérateurs spécifiques.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_gist_geom <span class="hljs-keyword">ON</span> spatial_table <span class="hljs-keyword">USING</span> GiST (geom);
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Permet l'indexation de types de données personnalisés et l'optimisation des requêtes géospatiales.</li>
+<li>Supporte les recherches par similarité et les opérateurs d'intervalles.</li>
+</ul>
+<h3 id="6-index-sp-gist-space-partitioned-generalized-search-tree">6. Index SP-GiST (Space-Partitioned Generalized Search Tree)</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Similaire à GiST mais utilise une stratégie de partitionnement spatial.</li>
+<li>Conçu pour les types de données spatiaux et les recherches de voisinage.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes pour les types de données non équilibrés et les types de données de partitionnement spatial.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_spgist_geom <span class="hljs-keyword">ON</span> spatial_table <span class="hljs-keyword">USING</span> SP-GiST (geom);
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Meilleures performances pour certains types de requêtes spatiales et les structures de données non équilibrées.</li>
+<li>Optimisation de la recherche de voisinage et de la recherche de proximité.</li>
+</ul>
+<h3 id="7-index-brin-block-range-index">7. Index BRIN (Block Range INdex)</h3>
+<h4 id="description">Description :</h4>
+<ul>
+<li>Un index compact qui utilise des plages de blocs pour indexer les tables très grandes.</li>
+<li>Idéal pour les colonnes dont les valeurs sont physiquement ordonnées.</li>
+</ul>
+<h4 id="utilisation">Utilisation :</h4>
+<ul>
+<li>Optimise les requêtes sur de très grandes tables où les colonnes sont corrélées avec l'ordre physique des lignes.</li>
+</ul>
+<h4 id="exemple">Exemple :</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_brin_date <span class="hljs-keyword">ON</span> orders <span class="hljs-keyword">USING</span> BRIN (order_date);
+</div></code></pre>
+<h4 id="avantages">Avantages :</h4>
+<ul>
+<li>Très faible coût de stockage et de maintenance.</li>
+<li>Performances acceptables pour les requêtes sur de grandes tables ordonnées.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>Les différents types d'index dans PostgreSQL permettent d'optimiser les performances des requêtes en fonction des types de données et des schémas d'accès. Voici un résumé rapide de leur utilisation optimale :</p>
+<ul>
+<li><strong>B-tree</strong> : Recherches d'égalité et de plage.</li>
+<li><strong>Multicolonne</strong> : Requêtes utilisant plusieurs colonnes.</li>
+<li><strong>Partiel</strong> : Requêtes avec des conditions fréquentes spécifiques.</li>
+<li><strong>GIN</strong> : Types de données complexes et recherche en texte intégral.</li>
+<li><strong>GiST</strong> : Données spatiales et recherches par proximité.</li>
+<li><strong>SP-GiST</strong> : Partitionnement spatial et structures non équilibrées.</li>
+<li><strong>BRIN</strong> : Très grandes tables avec colonnes ordonnées.</li>
+</ul>
+
+</body>
+
+</html>

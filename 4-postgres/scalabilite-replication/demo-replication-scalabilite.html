@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>demo-replication-scalabilite.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Pour démontrer la scalabilité et la réplication de PostgreSQL avec Docker, nous allons utiliser Docker Compose pour configurer un environnement avec un serveur maître PostgreSQL et deux serveurs esclaves. Nous utiliserons la réplication asynchrone pour cet exemple.</p>
+<h3 id="pr%C3%A9-requis">Pré-requis</h3>
+<p>Assurez-vous d'avoir Docker et Docker Compose installés sur votre machine.</p>
+<h3 id="%C3%A9tape-1--cr%C3%A9er-le-fichier-docker-composeyml">Étape 1 : Créer le Fichier <code>docker-compose.yml</code></h3>
+<p>Créez un répertoire pour votre projet et à l'intérieur, créez un fichier nommé <code>docker-compose.yml</code> avec le contenu suivant :</p>
+<pre class="hljs"><code><div><span class="hljs-attr">version:</span> <span class="hljs-string">'3.8'</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">master:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:latest</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">pg_master</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">POSTGRES_USER:</span> <span class="hljs-string">masteruser</span>
+      <span class="hljs-attr">POSTGRES_PASSWORD:</span> <span class="hljs-string">masterpassword</span>
+      <span class="hljs-attr">POSTGRES_DB:</span> <span class="hljs-string">masterdb</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"5432:5432"</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./master_data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">pgnet</span>
+
+  <span class="hljs-attr">slave1:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:latest</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">pg_slave1</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">POSTGRES_USER:</span> <span class="hljs-string">replicauser</span>
+      <span class="hljs-attr">POSTGRES_PASSWORD:</span> <span class="hljs-string">replicapassword</span>
+      <span class="hljs-attr">POSTGRES_DB:</span> <span class="hljs-string">replicadb</span>
+      <span class="hljs-attr">POSTGRES_REPLICATION_USER:</span> <span class="hljs-string">replicator</span>
+      <span class="hljs-attr">POSTGRES_REPLICATION_PASSWORD:</span> <span class="hljs-string">replicatorpassword</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">master</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"5433:5432"</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./slave1_data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">pgnet</span>
+
+  <span class="hljs-attr">slave2:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">postgres:latest</span>
+    <span class="hljs-attr">container_name:</span> <span class="hljs-string">pg_slave2</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-attr">POSTGRES_USER:</span> <span class="hljs-string">replicauser</span>
+      <span class="hljs-attr">POSTGRES_PASSWORD:</span> <span class="hljs-string">replicapassword</span>
+      <span class="hljs-attr">POSTGRES_DB:</span> <span class="hljs-string">replicadb</span>
+      <span class="hljs-attr">POSTGRES_REPLICATION_USER:</span> <span class="hljs-string">replicator</span>
+      <span class="hljs-attr">POSTGRES_REPLICATION_PASSWORD:</span> <span class="hljs-string">replicatorpassword</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">master</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"5434:5432"</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./slave2_data:/var/lib/postgresql/data</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">pgnet</span>
+
+<span class="hljs-attr">networks:</span>
+  <span class="hljs-attr">pgnet:</span>
+    <span class="hljs-attr">driver:</span> <span class="hljs-string">bridge</span>
+</div></code></pre>
+<h3 id="%C3%A9tape-2--configurer-le-serveur-ma%C3%AEtre">Étape 2 : Configurer le Serveur Maître</h3>
+<ol>
+<li>
+<p>Lancez les services en utilisant Docker Compose :</p>
+<pre class="hljs"><code><div>docker-compose up -d
+</div></code></pre>
+</li>
+<li>
+<p>Connectez-vous au conteneur du maître :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_master bash
+</div></code></pre>
+</li>
+<li>
+<p>Modifiez la configuration PostgreSQL pour activer la réplication :</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">echo</span> <span class="hljs-string">"wal_level = replica"</span> &gt;&gt; /var/lib/postgresql/data/postgresql.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"max_wal_senders = 10"</span> &gt;&gt; /var/lib/postgresql/data/postgresql.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"wal_keep_size = 64"</span> &gt;&gt; /var/lib/postgresql/data/postgresql.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"host replication replicator 0.0.0.0/0 md5"</span> &gt;&gt; /var/lib/postgresql/data/pg_hba.conf
+</div></code></pre>
+</li>
+<li>
+<p>Redémarrez le conteneur maître pour appliquer les modifications :</p>
+<pre class="hljs"><code><div>docker restart pg_master
+</div></code></pre>
+</li>
+<li>
+<p>Créez un utilisateur pour la réplication dans PostgreSQL :</p>
+<pre class="hljs"><code><div>psql -U masteruser -d masterdb
+CREATE USER replicator REPLICATION LOGIN ENCRYPTED PASSWORD <span class="hljs-string">'replicatorpassword'</span>;
+\q
+<span class="hljs-built_in">exit</span>
+</div></code></pre>
+</li>
+</ol>
+<h3 id="%C3%A9tape-3--configurer-les-serveurs-esclaves">Étape 3 : Configurer les Serveurs Esclaves</h3>
+<ol>
+<li>
+<p><strong>Configurer l'esclave 1</strong> :</p>
+<ul>
+<li>
+<p>Connectez-vous au conteneur de l'esclave 1 :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_slave1 bash
+</div></code></pre>
+</li>
+<li>
+<p>Clonez la base de données du maître :</p>
+<pre class="hljs"><code><div>pg_basebackup -h pg_master -D /var/lib/postgresql/data -U replicator -v -P --wal-method=stream
+</div></code></pre>
+</li>
+<li>
+<p>Créez un fichier <code>recovery.conf</code> pour configurer la réplication :</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">echo</span> <span class="hljs-string">"standby_mode = 'on'"</span> &gt;&gt; /var/lib/postgresql/data/recovery.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"primary_conninfo = 'host=pg_master port=5432 user=replicator password=replicatorpassword'"</span> &gt;&gt; /var/lib/postgresql/data/recovery.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"trigger_file = '/tmp/trigger_file'"</span> &gt;&gt; /var/lib/postgresql/data/recovery.conf
+</div></code></pre>
+</li>
+<li>
+<p>Redémarrez l'esclave 1 :</p>
+<pre class="hljs"><code><div>docker restart pg_slave1
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Configurer l'esclave 2</strong> :</p>
+<ul>
+<li>
+<p>Répétez les mêmes étapes que pour l'esclave 1, mais en utilisant le conteneur <code>pg_slave2</code> :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_slave2 bash
+
+pg_basebackup -h pg_master -D /var/lib/postgresql/data -U replicator -v -P --wal-method=stream
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"standby_mode = 'on'"</span> &gt;&gt; /var/lib/postgresql/data/recovery.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"primary_conninfo = 'host=pg_master port=5432 user=replicator password=replicatorpassword'"</span> &gt;&gt; /var/lib/postgresql/data/recovery.conf
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"trigger_file = '/tmp/trigger_file'"</span> &gt;&gt; /var/lib/postgresql/data/recovery.conf
+
+docker restart pg_slave2
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="%C3%A9tape-4--v%C3%A9rification-de-la-r%C3%A9plication">Étape 4 : Vérification de la Réplication</h3>
+<ol>
+<li>
+<p>Connectez-vous à l'esclave 1 et vérifiez la réplication :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_slave1 psql -U replicauser -d replicadb -c <span class="hljs-string">"SELECT * FROM pg_stat_replication;"</span>
+</div></code></pre>
+</li>
+<li>
+<p>Connectez-vous à l'esclave 2 et faites la même vérification :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_slave2 psql -U replicauser -d replicadb -c <span class="hljs-string">"SELECT * FROM pg_stat_replication;"</span>
+</div></code></pre>
+</li>
+</ol>
+<h3 id="%C3%A9tape-5--scalabilit%C3%A9-et-tests-de-r%C3%A9plication">Étape 5 : Scalabilité et Tests de Réplication</h3>
+<ol>
+<li>
+<p>Connectez-vous au maître et insérez des données :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_master psql -U masteruser -d masterdb
+
+CREATE TABLE test_table (id SERIAL PRIMARY KEY, data TEXT);
+INSERT INTO test_table (data) VALUES (<span class="hljs-string">'First entry'</span>);
+INSERT INTO test_table (data) VALUES (<span class="hljs-string">'Second entry'</span>);
+\q
+</div></code></pre>
+</li>
+<li>
+<p>Vérifiez que les données sont répliquées sur les esclaves :</p>
+<pre class="hljs"><code><div>docker <span class="hljs-built_in">exec</span> -it pg_slave1 psql -U replicauser -d replicadb -c <span class="hljs-string">"SELECT * FROM test_table;"</span>
+docker <span class="hljs-built_in">exec</span> -it pg_slave2 psql -U replicauser -d replicadb -c <span class="hljs-string">"SELECT * FROM test_table;"</span>
+</div></code></pre>
+</li>
+</ol>
+<p>Vous devriez voir les mêmes entrées sur les serveurs esclaves, confirmant que la réplication fonctionne correctement.</p>
+
+</body>
+
+</html>

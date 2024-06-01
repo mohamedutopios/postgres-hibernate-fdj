@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>operation-indexation.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Les opérations d'indexation dans PostgreSQL sont diverses et peuvent être utilisées pour optimiser différents types de requêtes. Voici un aperçu des types d'index disponibles et des opérations d'indexation possibles :</p>
+<h3 id="types-dindex">Types d'Index</h3>
+<ol>
+<li>
+<p><strong>Index B-Tree (par défaut)</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Convient pour les recherches d'égalité et de plage.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_nom_recoltant <span class="hljs-keyword">ON</span> recoltant (nom);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index Hash</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Optimisé pour les recherches d'égalité.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_vin_id_hash <span class="hljs-keyword">ON</span> stock <span class="hljs-keyword">USING</span> <span class="hljs-keyword">hash</span> (vin_id);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index GiST (Generalized Search Tree)</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Convient pour les types de données géométriques et les recherches par proximité.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_geom_gist <span class="hljs-keyword">ON</span> table_geom <span class="hljs-keyword">USING</span> gist (geom);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index SP-GiST (Space-Partitioned Generalized Search Tree)</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Optimisé pour les types de données géométriques dispersés.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_geom_spgist <span class="hljs-keyword">ON</span> table_geom <span class="hljs-keyword">USING</span> spgist (geom);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index GIN (Generalized Inverted Index)</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Utilisé pour les recherches d'appartenance (contains) et les types de données avec plusieurs valeurs, comme les tableaux et les documents JSONB.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_docs_gin <span class="hljs-keyword">ON</span> documents <span class="hljs-keyword">USING</span> gin (<span class="hljs-keyword">content</span>);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index BRIN (Block Range INdexes)</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Efficace pour les très grandes tables où les données sont naturellement ordonnées.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_time_brin <span class="hljs-keyword">ON</span> <span class="hljs-keyword">logs</span> <span class="hljs-keyword">USING</span> brin (<span class="hljs-built_in">timestamp</span>);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index Expressional (Expression Index)</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Index sur des expressions ou des fonctions spécifiques.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_upper_nom <span class="hljs-keyword">ON</span> recoltant (<span class="hljs-keyword">UPPER</span>(nom));
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Index Partionné</strong> :</p>
+<ul>
+<li><strong>Utilisation</strong> : Index sur des tables partitionnées pour optimiser les recherches dans chaque partition.</li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_partitioned_stock <span class="hljs-keyword">ON</span> stock (vin_id);
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="op%C3%A9rations-dindexation-possibles">Opérations d'Indexation Possibles</h3>
+<ol>
+<li>
+<p><strong>Création d'un Index</strong> :</p>
+<ul>
+<li><strong>Syntaxe</strong> : <code>CREATE INDEX index_name ON table_name (column_name);</code></li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_vin_id <span class="hljs-keyword">ON</span> stock (vin_id);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Création d'un Index Unique</strong> :</p>
+<ul>
+<li><strong>Syntaxe</strong> : <code>CREATE UNIQUE INDEX index_name ON table_name (column_name);</code></li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">INDEX</span> idx_recoltant_nom_unique <span class="hljs-keyword">ON</span> recoltant (nom);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Création d'un Index Concurremment</strong> :</p>
+<ul>
+<li><strong>Syntaxe</strong> : <code>CREATE INDEX CONCURRENTLY index_name ON table_name (column_name);</code></li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> CONCURRENTLY idx_vin_id <span class="hljs-keyword">ON</span> stock (vin_id);
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Suppression d'un Index</strong> :</p>
+<ul>
+<li><strong>Syntaxe</strong> : <code>DROP INDEX index_name;</code></li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">INDEX</span> idx_vin_id;
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Reconstruction d'un Index</strong> :</p>
+<ul>
+<li><strong>Syntaxe</strong> : <code>REINDEX INDEX index_name;</code></li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div>REINDEX INDEX idx_vin_id;
+</div></code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyse de l'Index</strong> :</p>
+<ul>
+<li><strong>Syntaxe</strong> : <code>ANALYZE table_name;</code></li>
+<li><strong>Exemple</strong> :<pre class="hljs"><code><div><span class="hljs-keyword">ANALYZE</span> stock;
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="d%C3%A9monstration-avec-et-sans-index">Démonstration avec et sans Index</h3>
+<p>Nous allons démontrer l'impact de l'indexation sur les performances des requêtes en utilisant l'index B-Tree par défaut sur les colonnes <code>vin_id</code> et <code>annee</code> de la table <code>stock</code>.</p>
+<h4 id="cr%C3%A9ation-des-index">Création des Index</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Créer un index sur la colonne vin_id de la table stock</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_stock_vin_id <span class="hljs-keyword">ON</span> stock (vin_id);
+
+<span class="hljs-comment">-- Créer un index sur la colonne annee de la table stock</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_stock_annee <span class="hljs-keyword">ON</span> stock (annee);
+</div></code></pre>
+<h4 id="requ%C3%AAte-sans-index">Requête sans Index</h4>
+<p>Avant de créer les index, exécutez une requête et examinez son plan d'exécution.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Exécuter une requête sans index</span>
+<span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">ANALYZE</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> stock <span class="hljs-keyword">WHERE</span> vin_id = <span class="hljs-number">1</span>;
+</div></code></pre>
+<h4 id="plan-dex%C3%A9cution-typique-sans-index">Plan d'Exécution Typique sans Index</h4>
+<pre class="hljs"><code><div>Seq Scan on stock  (cost=0.00..34.50 rows=1 width=32) (actual time=0.012..0.013 rows=1 loops=1)
+  Filter: (vin_id = 1)
+</div></code></pre>
+<h4 id="requ%C3%AAte-avec-index">Requête avec Index</h4>
+<p>Après avoir créé les index, exécutez la même requête et comparez le plan d'exécution.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Créer les index</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_stock_vin_id <span class="hljs-keyword">ON</span> stock (vin_id);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_stock_annee <span class="hljs-keyword">ON</span> stock (annee);
+
+<span class="hljs-comment">-- Exécuter la même requête avec les index</span>
+<span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">ANALYZE</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> stock <span class="hljs-keyword">WHERE</span> vin_id = <span class="hljs-number">1</span>;
+</div></code></pre>
+<h4 id="plan-dex%C3%A9cution-typique-avec-index">Plan d'Exécution Typique avec Index</h4>
+<pre class="hljs"><code><div>Index Scan using idx_stock_vin_id on stock  (cost=0.15..8.17 rows=1 width=32) (actual time=0.008..0.009 rows=1 loops=1)
+  Index Cond: (vin_id = 1)
+</div></code></pre>
+<h3 id="analyse-des-r%C3%A9sultats">Analyse des Résultats</h3>
+<ul>
+<li><strong>Sans Index</strong> : Le plan d'exécution montre un &quot;Seq Scan&quot; (scan séquentiel) qui parcourt chaque ligne de la table <code>stock</code> pour trouver les lignes où <code>vin_id = 1</code>. Cela peut être très lent pour les grandes tables.</li>
+<li><strong>Avec Index</strong> : Le plan d'exécution montre un &quot;Index Scan&quot; qui utilise l'index <code>idx_stock_vin_id</code> pour trouver rapidement les lignes où <code>vin_id = 1</code>. L'utilisation de l'index réduit considérablement le coût de la requête et le temps d'exécution.</li>
+</ul>
+
+</body>
+
+</html>

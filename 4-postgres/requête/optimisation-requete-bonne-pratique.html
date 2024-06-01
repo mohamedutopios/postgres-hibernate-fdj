@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>optimisation-requete-bonne-pratique.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>L'optimisation des requêtes dans PostgreSQL est essentielle pour garantir des performances élevées, surtout lorsque vous travaillez avec de grandes bases de données ou des charges de travail intensives. Voici une liste des meilleures pratiques pour optimiser vos requêtes PostgreSQL :</p>
+<h3 id="1-utiliser-des-index">1. Utiliser des Index</h3>
+<h4 id="types-dindex">Types d'Index</h4>
+<ul>
+<li><strong>B-tree</strong> : Utilisé pour les opérations d'égalité et de comparaison.</li>
+<li><strong>Hash</strong> : Utilisé pour les opérations d'égalité.</li>
+<li><strong>GIN et GiST</strong> : Utilisés pour les types de données complexes comme les tableaux, les documents JSON, et les types géographiques.</li>
+<li><strong>BRIN</strong> : Utilisé pour les très grandes tables avec une forte corrélation entre les colonnes.</li>
+</ul>
+<h4 id="cr%C3%A9ation-dindex">Création d'Index</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">INDEX</span> idx_column_name <span class="hljs-keyword">ON</span> table_name(column_name);
+</div></code></pre>
+<h3 id="2-analyser-et-expliquer-les-requ%C3%AAtes">2. Analyser et Expliquer les Requêtes</h3>
+<p>Utilisez <code>EXPLAIN</code> et <code>EXPLAIN ANALYZE</code> pour comprendre le plan d'exécution des requêtes.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">ANALYZE</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> column_name = <span class="hljs-string">'value'</span>;
+</div></code></pre>
+<h3 id="3-utiliser-des-jointures-appropri%C3%A9es">3. Utiliser des Jointures Appropriées</h3>
+<ul>
+<li><strong>INNER JOIN</strong> : Utilisé lorsque vous avez besoin de lignes qui ont des correspondances dans les deux tables.</li>
+<li><strong>LEFT JOIN</strong> : Utilisé lorsque vous avez besoin de toutes les lignes de la table de gauche, avec les correspondances de la table de droite.</li>
+<li><strong>RIGHT JOIN</strong> : Utilisé lorsque vous avez besoin de toutes les lignes de la table de droite, avec les correspondances de la table de gauche.</li>
+<li><strong>FULL JOIN</strong> : Utilisé lorsque vous avez besoin de toutes les lignes où il y a une correspondance dans l'une ou l'autre des tables.</li>
+</ul>
+<h3 id="4-optimiser-les-requ%C3%AAtes-de-mise-%C3%A0-jour">4. Optimiser les Requêtes de Mise à Jour</h3>
+<p>Pour les mises à jour en masse, utilisez des transactions pour réduire les frais généraux.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-keyword">UPDATE</span> table_name <span class="hljs-keyword">SET</span> column_name = <span class="hljs-string">'new_value'</span> <span class="hljs-keyword">WHERE</span> condition;
+<span class="hljs-keyword">COMMIT</span>;
+</div></code></pre>
+<h3 id="5-utiliser-les-requ%C3%AAtes-pr%C3%A9par%C3%A9es">5. Utiliser les Requêtes Préparées</h3>
+<p>Les requêtes préparées peuvent améliorer les performances en réduisant le coût d'analyse et de planification des requêtes.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">PREPARE</span> stmt_name <span class="hljs-keyword">AS</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> column_name = $<span class="hljs-number">1</span>;
+<span class="hljs-keyword">EXECUTE</span> stmt_name(<span class="hljs-string">'value'</span>);
+</div></code></pre>
+<h3 id="6-minimiser-les-sous-requ%C3%AAtes">6. Minimiser les Sous-requêtes</h3>
+<p>Préférez les jointures aux sous-requêtes imbriquées lorsque cela est possible.</p>
+<h4 id="moins-efficace-sous-requ%C3%AAte">Moins efficace (sous-requête)</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table1 <span class="hljs-keyword">WHERE</span> column1 <span class="hljs-keyword">IN</span> (<span class="hljs-keyword">SELECT</span> column2 <span class="hljs-keyword">FROM</span> table2);
+</div></code></pre>
+<h4 id="plus-efficace-jointure">Plus efficace (jointure)</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> table1.* <span class="hljs-keyword">FROM</span> table1 <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> table2 <span class="hljs-keyword">ON</span> table1.column1 = table2.column2;
+</div></code></pre>
+<h3 id="7-utiliser-les-transactions-de-mani%C3%A8re-efficace">7. Utiliser les Transactions de Manière Efficace</h3>
+<p>Les transactions peuvent réduire le temps de verrouillage des lignes et améliorer les performances.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-comment">-- Plusieurs opérations DML (Data Manipulation Language)</span>
+<span class="hljs-keyword">COMMIT</span>;
+</div></code></pre>
+<h3 id="8-garder-les-statistiques-%C3%A0-jour">8. Garder les Statistiques à Jour</h3>
+<p>Utilisez <code>ANALYZE</code> pour mettre à jour les statistiques utilisées par le planificateur de requêtes.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ANALYZE</span> table_name;
+</div></code></pre>
+<h3 id="9-utiliser-la-parall%C3%A9lisation">9. Utiliser la Parallélisation</h3>
+<p>PostgreSQL peut paralléliser certaines opérations de requête. Assurez-vous que les paramètres de configuration le permettent.</p>
+<h4 id="exemple-de-param%C3%A8tres">Exemple de paramètres</h4>
+<pre class="hljs"><code><div>max_parallel_workers_per_gather = 4
+</div></code></pre>
+<h3 id="10-optimiser-la-configuration-postgresql">10. Optimiser la Configuration PostgreSQL</h3>
+<p>Certains paramètres de configuration de PostgreSQL peuvent avoir un impact significatif sur les performances.</p>
+<h4 id="param%C3%A8tres-importants">Paramètres importants</h4>
+<ul>
+<li>
+<p><strong>shared_buffers</strong> : Quantité de mémoire partagée allouée aux tampons de base de données.</p>
+<pre class="hljs"><code><div>shared_buffers = 4GB
+</div></code></pre>
+</li>
+<li>
+<p><strong>work_mem</strong> : Mémoire utilisée pour les opérations de tri et de hachage.</p>
+<pre class="hljs"><code><div>work_mem = 64MB
+</div></code></pre>
+</li>
+<li>
+<p><strong>maintenance_work_mem</strong> : Mémoire utilisée pour les opérations de maintenance (VACUUM, CREATE INDEX, etc.).</p>
+<pre class="hljs"><code><div>maintenance_work_mem = 512MB
+</div></code></pre>
+</li>
+<li>
+<p><strong>effective_cache_size</strong> : Estimation de la mémoire disponible pour le cache de disque du système d'exploitation.</p>
+<pre class="hljs"><code><div>effective_cache_size = 12GB
+</div></code></pre>
+</li>
+</ul>
+<h3 id="11-utiliser-des-mat%C3%A9rialisations-et-des-vues-mat%C3%A9rialis%C3%A9es">11. Utiliser des Matérialisations et des Vues Matérialisées</h3>
+<p>Les vues matérialisées stockent les résultats des requêtes, réduisant ainsi le temps de calcul pour les requêtes répétitives.</p>
+<h4 id="cr%C3%A9ation-dune-vue-mat%C3%A9rialis%C3%A9e">Création d'une vue matérialisée</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">MATERIALIZED</span> <span class="hljs-keyword">VIEW</span> view_name <span class="hljs-keyword">AS</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table_name;
+</div></code></pre>
+<h4 id="actualisation-de-la-vue-mat%C3%A9rialis%C3%A9e">Actualisation de la vue matérialisée</h4>
+<pre class="hljs"><code><div>REFRESH MATERIALIZED VIEW view_name;
+</div></code></pre>
+<h3 id="12-%C3%A9viter-les-s%C3%A9lections-de-colonnes-inutiles">12. Éviter les Sélections de Colonnes Inutiles</h3>
+<p>Sélectionnez uniquement les colonnes nécessaires pour réduire l'utilisation de la mémoire et accélérer les requêtes.</p>
+<h4 id="moins-efficace">Moins efficace</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table_name;
+</div></code></pre>
+<h4 id="plus-efficace">Plus efficace</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> column1, column2 <span class="hljs-keyword">FROM</span> table_name;
+</div></code></pre>
+<h3 id="13-utiliser-les-fonctions-dagr%C3%A9gation-avec-discr%C3%A9tion">13. Utiliser les Fonctions d'Agrégation avec Discrétion</h3>
+<p>Les fonctions d'agrégation peuvent être coûteuses. Utilisez-les de manière judicieuse et, si possible, combinez-les avec des index.</p>
+<h3 id="14-optimiser-les-requ%C3%AAtes-de-paginaion">14. Optimiser les Requêtes de Paginaion</h3>
+<p>Pour la pagination, évitez d'utiliser <code>OFFSET</code> pour les grands ensembles de données.</p>
+<h4 id="moins-efficace">Moins efficace</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> column_name <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">10</span> <span class="hljs-keyword">OFFSET</span> <span class="hljs-number">1000</span>;
+</div></code></pre>
+<h4 id="plus-efficace">Plus efficace</h4>
+<p>Utilisez un curseur ou une pagination basée sur des valeurs de colonne.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> table_name <span class="hljs-keyword">WHERE</span> column_name &gt; last_seen_value <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> column_name <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">10</span>;
+</div></code></pre>
+<h3 id="15-utiliser-des-partitions-de-tables">15. Utiliser des Partitions de Tables</h3>
+<p>Les tables partitionnées peuvent améliorer les performances en réduisant la quantité de données scannées.</p>
+<h4 id="cr%C3%A9ation-dune-table-partitionn%C3%A9e">Création d'une table partitionnée</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> table_name (
+    column1 data_type,
+    column2 data_type,
+    ...
+) <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">RANGE</span> (column_name);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> partition_name_1 <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">OF</span> table_name
+    <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">FROM</span> (start_value) <span class="hljs-keyword">TO</span> (end_value);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> partition_name_2 <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">OF</span> table_name
+    <span class="hljs-keyword">FOR</span> <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">FROM</span> (start_value) <span class="hljs-keyword">TO</span> (end_value);
+</div></code></pre>
+<p>Pour des informations plus détaillées, consultez la <a href="https://www.postgresql.org/docs/current/">documentation officielle de PostgreSQL</a>.</p>
+
+</body>
+
+</html>

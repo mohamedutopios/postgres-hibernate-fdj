@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>operation-sur-partition.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Pour illustrer les opérations de partitionnement de table avec des données fictives, prenons l'exemple d'une table <code>sales</code> contenant des données de ventes avec les colonnes <code>sale_id</code>, <code>sale_date</code>, et <code>amount</code>.</p>
+<h3 id="1-cr%C3%A9ation-de-table-partitionn%C3%A9e">1. Création de table partitionnée</h3>
+<p>Créons une table partitionnée par date de vente (<code>sale_date</code>), avec des partitions pour chaque année.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sales (
+    sale_id <span class="hljs-built_in">INT</span>,
+    sale_date <span class="hljs-built_in">DATE</span>,
+    amount <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">10</span>, <span class="hljs-number">2</span>)
+)
+<span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">RANGE</span> (sale_date) (
+    <span class="hljs-keyword">PARTITION</span> p0 <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">LESS</span> <span class="hljs-keyword">THAN</span> (<span class="hljs-string">'2021-01-01'</span>),
+    <span class="hljs-keyword">PARTITION</span> p1 <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">LESS</span> <span class="hljs-keyword">THAN</span> (<span class="hljs-string">'2022-01-01'</span>),
+    <span class="hljs-keyword">PARTITION</span> p2 <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">LESS</span> <span class="hljs-keyword">THAN</span> (<span class="hljs-string">'2023-01-01'</span>)
+);
+</div></code></pre>
+<h3 id="2-ajout-dune-nouvelle-partition">2. Ajout d'une nouvelle partition</h3>
+<p>Ajoutons une nouvelle partition pour l'année 2023.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">ADD</span> <span class="hljs-keyword">PARTITION</span> (
+    <span class="hljs-keyword">PARTITION</span> p3 <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">LESS</span> <span class="hljs-keyword">THAN</span> (<span class="hljs-string">'2024-01-01'</span>)
+);
+</div></code></pre>
+<h3 id="3-d%C3%A9tachement-dune-partition">3. Détachement d'une partition</h3>
+<p>Détachons la partition <code>p1</code> pour la transformer en une table autonome nommée <code>sales_p1</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales DETACH <span class="hljs-keyword">PARTITION</span> p1 <span class="hljs-keyword">INTO</span> sales_p1;
+</div></code></pre>
+<h3 id="4-suppression-dune-partition">4. Suppression d'une partition</h3>
+<p>Supprimons la partition <code>p0</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">PARTITION</span> p0;
+</div></code></pre>
+<h3 id="5-fusion-de-partitions">5. Fusion de partitions</h3>
+<p>Fusionnons les partitions <code>p1</code> et <code>p2</code> en une nouvelle partition <code>p1_p2</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">COALESCE</span> <span class="hljs-keyword">PARTITION</span> p1, p2 <span class="hljs-keyword">INTO</span> p1_p2;
+</div></code></pre>
+<h3 id="6-scission-dune-partition">6. Scission d'une partition</h3>
+<p>Scindons la partition <code>p2</code> en deux partitions <code>p2a</code> et <code>p2b</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">SPLIT</span> <span class="hljs-keyword">PARTITION</span> p2 <span class="hljs-keyword">INTO</span> (
+    <span class="hljs-keyword">PARTITION</span> p2a <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">LESS</span> <span class="hljs-keyword">THAN</span> (<span class="hljs-string">'2022-06-01'</span>),
+    <span class="hljs-keyword">PARTITION</span> p2b <span class="hljs-keyword">VALUES</span> <span class="hljs-keyword">LESS</span> <span class="hljs-keyword">THAN</span> (<span class="hljs-string">'2023-01-01'</span>)
+);
+</div></code></pre>
+<h3 id="7-renommer-une-partition">7. Renommer une partition</h3>
+<p>Renommons la partition <code>p2</code> en <code>p2_new</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">RENAME</span> <span class="hljs-keyword">PARTITION</span> p2 <span class="hljs-keyword">TO</span> p2_new;
+</div></code></pre>
+<h3 id="8-changer-le-tablespace-dune-partition">8. Changer le tablespace d'une partition</h3>
+<p>Déplaçons la partition <code>p1</code> vers un nouveau tablespace <code>new_tablespace</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">MOVE</span> <span class="hljs-keyword">PARTITION</span> p1 <span class="hljs-keyword">TO</span> <span class="hljs-keyword">tablespace</span> new_tablespace;
+</div></code></pre>
+<h3 id="9-%C3%A9change-de-partitions">9. Échange de partitions</h3>
+<p>Échangeons le contenu de la partition <code>p1</code> avec une table temporaire <code>temp_table</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> sales <span class="hljs-keyword">EXCHANGE</span> <span class="hljs-keyword">PARTITION</span> p1 <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">TABLE</span> temp_table;
+</div></code></pre>
+<h3 id="donn%C3%A9es-fictives">Données fictives</h3>
+<p>Pour rendre les exemples plus concrets, voici un ensemble de données fictives pour la table <code>sales</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales (sale_id, sale_date, amount) <span class="hljs-keyword">VALUES</span>
+(<span class="hljs-number">1</span>, <span class="hljs-string">'2020-01-15'</span>, <span class="hljs-number">100.00</span>),
+(<span class="hljs-number">2</span>, <span class="hljs-string">'2020-02-20'</span>, <span class="hljs-number">150.00</span>),
+(<span class="hljs-number">3</span>, <span class="hljs-string">'2020-03-25'</span>, <span class="hljs-number">200.00</span>),
+(<span class="hljs-number">4</span>, <span class="hljs-string">'2020-04-15'</span>, <span class="hljs-number">250.00</span>),
+(<span class="hljs-number">5</span>, <span class="hljs-string">'2020-05-15'</span>, <span class="hljs-number">300.00</span>),
+(<span class="hljs-number">6</span>, <span class="hljs-string">'2020-06-05'</span>, <span class="hljs-number">350.00</span>),
+(<span class="hljs-number">7</span>, <span class="hljs-string">'2020-07-22'</span>, <span class="hljs-number">400.00</span>),
+(<span class="hljs-number">8</span>, <span class="hljs-string">'2020-08-30'</span>, <span class="hljs-number">450.00</span>),
+(<span class="hljs-number">9</span>, <span class="hljs-string">'2020-09-10'</span>, <span class="hljs-number">500.00</span>),
+(<span class="hljs-number">10</span>, <span class="hljs-string">'2020-10-15'</span>, <span class="hljs-number">550.00</span>),
+(<span class="hljs-number">11</span>, <span class="hljs-string">'2020-11-20'</span>, <span class="hljs-number">600.00</span>),
+(<span class="hljs-number">12</span>, <span class="hljs-string">'2020-12-25'</span>, <span class="hljs-number">650.00</span>),
+(<span class="hljs-number">13</span>, <span class="hljs-string">'2021-01-15'</span>, <span class="hljs-number">700.00</span>),
+(<span class="hljs-number">14</span>, <span class="hljs-string">'2021-02-20'</span>, <span class="hljs-number">750.00</span>),
+(<span class="hljs-number">15</span>, <span class="hljs-string">'2021-03-25'</span>, <span class="hljs-number">800.00</span>),
+(<span class="hljs-number">16</span>, <span class="hljs-string">'2021-04-15'</span>, <span class="hljs-number">850.00</span>),
+(<span class="hljs-number">17</span>, <span class="hljs-string">'2021-05-15'</span>, <span class="hljs-number">900.00</span>),
+(<span class="hljs-number">18</span>, <span class="hljs-string">'2021-06-05'</span>, <span class="hljs-number">950.00</span>),
+(<span class="hljs-number">19</span>, <span class="hljs-string">'2021-07-22'</span>, <span class="hljs-number">1000.00</span>),
+(<span class="hljs-number">20</span>, <span class="hljs-string">'2021-08-30'</span>, <span class="hljs-number">1050.00</span>),
+(<span class="hljs-number">21</span>, <span class="hljs-string">'2021-09-10'</span>, <span class="hljs-number">1100.00</span>),
+(<span class="hljs-number">22</span>, <span class="hljs-string">'2021-10-15'</span>, <span class="hljs-number">1150.00</span>),
+(<span class="hljs-number">23</span>, <span class="hljs-string">'2021-11-20'</span>, <span class="hljs-number">1200.00</span>),
+(<span class="hljs-number">24</span>, <span class="hljs-string">'2021-12-25'</span>, <span class="hljs-number">1250.00</span>),
+(<span class="hljs-number">25</span>, <span class="hljs-string">'2022-01-15'</span>, <span class="hljs-number">1300.00</span>),
+(<span class="hljs-number">26</span>, <span class="hljs-string">'2022-02-20'</span>, <span class="hljs-number">1350.00</span>),
+(<span class="hljs-number">27</span>, <span class="hljs-string">'2022-03-25'</span>, <span class="hljs-number">1400.00</span>),
+(<span class="hljs-number">28</span>, <span class="hljs-string">'2022-04-15'</span>, <span class="hljs-number">1450.00</span>),
+(<span class="hljs-number">29</span>, <span class="hljs-string">'2022-05-15'</span>, <span class="hljs-number">1500.00</span>),
+(<span class="hljs-number">30</span>, <span class="hljs-string">'2022-06-05'</span>, <span class="hljs-number">1550.00</span>),
+(<span class="hljs-number">31</span>, <span class="hljs-string">'2022-07-22'</span>, <span class="hljs-number">1600.00</span>),
+(<span class="hljs-number">32</span>, <span class="hljs-string">'2022-08-30'</span>, <span class="hljs-number">1650.00</span>),
+(<span class="hljs-number">33</span>, <span class="hljs-string">'2022-09-10'</span>, <span class="hljs-number">1700.00</span>),
+(<span class="hljs-number">34</span>, <span class="hljs-string">'2022-10-15'</span>, <span class="hljs-number">1750.00</span>),
+(<span class="hljs-number">35</span>, <span class="hljs-string">'2022-11-20'</span>, <span class="hljs-number">1800.00</span>),
+(<span class="hljs-number">36</span>, <span class="hljs-string">'2022-12-25'</span>, <span class="hljs-number">1850.00</span>),
+(<span class="hljs-number">37</span>, <span class="hljs-string">'2023-01-15'</span>, <span class="hljs-number">1900.00</span>),
+(<span class="hljs-number">38</span>, <span class="hljs-string">'2023-02-20'</span>, <span class="hljs-number">1950.00</span>),
+(<span class="hljs-number">39</span>, <span class="hljs-string">'2023-03-25'</span>, <span class="hljs-number">2000.00</span>),
+(<span class="hljs-number">40</span>, <span class="hljs-string">'2023-04-15'</span>, <span class="hljs-number">2050.00</span>),
+(<span class="hljs-number">41</span>, <span class="hljs-string">'2023-05-15'</span>, <span class="hljs-number">2100.00</span>),
+(<span class="hljs-number">42</span>, <span class="hljs-string">'2023-06-05'</span>, <span class="hljs-number">2150.00</span>),
+(<span class="hljs-number">43</span>, <span class="hljs-string">'2023-07-22'</span>, <span class="hljs-number">2200.00</span>),
+(<span class="hljs-number">44</span>, <span class="hljs-string">'2023-08-30'</span>, <span class="hljs-number">2250.00</span>),
+(<span class="hljs-number">45</span>, <span class="hljs-string">'2023-09-10'</span>, <span class="hljs-number">2300.00</span>),
+(<span class="hljs-number">46</span>, <span class="hljs-string">'2023-10-15'</span>, <span class="hljs-number">2350.00</span>),
+(<span class="hljs-number">47</span>, <span class="hljs-string">'2023-11-20'</span>, <span class="hljs-number">2400.00</span>),
+(<span class="hljs-number">48</span>, <span class="hljs-string">'2023-12-25'</span>, <span class="hljs-number">2450.00</span>);
+
+</div></code></pre>
+
+</body>
+
+</html>

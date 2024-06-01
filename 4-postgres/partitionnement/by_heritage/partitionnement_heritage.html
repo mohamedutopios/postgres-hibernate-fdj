@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>partitionnement_heritage.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <h3 id="1-cr%C3%A9ation-de-la-table-parent-et-des-partitions">1. Création de la Table Parent et des Partitions</h3>
+<h4 id="cr%C3%A9ation-de-la-table-parent">Création de la Table Parent</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sales (
+    sale_id <span class="hljs-built_in">SERIAL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    sale_date <span class="hljs-built_in">DATE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    amount <span class="hljs-built_in">NUMERIC</span>
+);
+</div></code></pre>
+<h4 id="cr%C3%A9ation-des-tables-enfants-avec-des-contraintes-de-v%C3%A9rification-check">Création des Tables Enfants avec des Contraintes de Vérification (CHECK)</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sales_2023_01 (
+    <span class="hljs-keyword">CHECK</span> (sale_date &gt;= <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-01-01'</span> <span class="hljs-keyword">AND</span> sale_date &lt; <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-02-01'</span>)
+) INHERITS (sales);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sales_2023_02 (
+    <span class="hljs-keyword">CHECK</span> (sale_date &gt;= <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-02-01'</span> <span class="hljs-keyword">AND</span> sale_date &lt; <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-03-01'</span>)
+) INHERITS (sales);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sales_2023_03 (
+    <span class="hljs-keyword">CHECK</span> (sale_date &gt;= <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-03-01'</span> <span class="hljs-keyword">AND</span> sale_date &lt; <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-04-01'</span>)
+) INHERITS (sales);
+</div></code></pre>
+<h3 id="2-cr%C3%A9ation-de-la-fonction-et-du-d%C3%A9clencheur-pour-g%C3%A9rer-les-insertion">2. Création de la Fonction et du Déclencheur pour Gérer les Insertion</h3>
+<h4 id="fonction-de-r%C3%A9partition-des-insertion">Fonction de Répartition des Insertion</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> <span class="hljs-keyword">REPLACE</span> <span class="hljs-keyword">FUNCTION</span> insert_sales_partition()
+<span class="hljs-keyword">RETURNS</span> <span class="hljs-keyword">TRIGGER</span> <span class="hljs-keyword">AS</span> $$
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">IF</span> (NEW.sale_date &gt;= <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-01-01'</span> <span class="hljs-keyword">AND</span> NEW.sale_date &lt; <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-02-01'</span>) <span class="hljs-keyword">THEN</span>
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_01 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSIF (NEW.sale_date &gt;= DATE '2023-02-01' AND NEW.sale_date &lt; DATE '2023-03-01') THEN
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_02 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSIF (NEW.sale_date &gt;= DATE '2023-03-01' AND NEW.sale_date &lt; DATE '2023-04-01') THEN
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_03 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSE
+        RAISE EXCEPTION 'Date out of range. Fix the insert_sales_partition function!';
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span>;
+    RETURN NULL;
+<span class="hljs-keyword">END</span>;
+$$ LANGUAGE plpgsql;
+</div></code></pre>
+<h4 id="d%C3%A9clencheur-avant-insertion">Déclencheur Avant Insertion</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TRIGGER</span> insert_sales_trigger
+<span class="hljs-keyword">BEFORE</span> <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">ON</span> sales
+<span class="hljs-keyword">FOR</span> <span class="hljs-keyword">EACH</span> <span class="hljs-keyword">ROW</span> <span class="hljs-keyword">EXECUTE</span> <span class="hljs-keyword">FUNCTION</span> insert_sales_partition();
+</div></code></pre>
+<h3 id="3-g%C3%A9n%C3%A9ration-de-donn%C3%A9es-de-test-en-masse">3. Génération de Données de Test en Masse</h3>
+<p>Nous allons générer des données de test en masse et les insérer dans la table partitionnée. Vous pouvez utiliser un script comme celui-ci pour insérer un grand nombre de lignes :</p>
+<h4 id="script-pour-g%C3%A9n%C3%A9rer-et-ins%C3%A9rer-des-donn%C3%A9es">Script pour Générer et Insérer des Données</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">DO</span> $$
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">FOR</span> i <span class="hljs-keyword">IN</span> <span class="hljs-number">1.</span><span class="hljs-number">.10000</span> <span class="hljs-keyword">LOOP</span>
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales (sale_date, amount) 
+        <span class="hljs-keyword">VALUES</span> (
+            <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-01-01'</span> + (i % <span class="hljs-number">90</span>), <span class="hljs-comment">-- Cette ligne répartit les dates sur trois mois</span>
+            (RANDOM() * <span class="hljs-number">1000</span>)::<span class="hljs-built_in">NUMERIC</span> <span class="hljs-comment">-- Génère un montant aléatoire entre 0 et 1000</span>
+        );
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">LOOP</span>;
+<span class="hljs-keyword">END</span> $$;
+</div></code></pre>
+<h3 id="4-v%C3%A9rification-et-op%C3%A9rations">4. Vérification et Opérations</h3>
+<h4 id="s%C3%A9lection-de-toutes-les-donn%C3%A9es">Sélection de Toutes les Données</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">FROM</span> sales;
+</div></code></pre>
+<h4 id="s%C3%A9lection-par-partition">Sélection par Partition</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">FROM</span> sales_2023_01;
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">FROM</span> sales_2023_02;
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">FROM</span> sales_2023_03;
+</div></code></pre>
+<h4 id="mise-%C3%A0-jour-des-donn%C3%A9es">Mise à Jour des Données</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">UPDATE</span> sales <span class="hljs-keyword">SET</span> amount = amount * <span class="hljs-number">1.1</span> <span class="hljs-keyword">WHERE</span> sale_date &lt; <span class="hljs-string">'2023-03-01'</span>;
+</div></code></pre>
+<h4 id="suppression-des-donn%C3%A9es">Suppression des Données</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> sales <span class="hljs-keyword">WHERE</span> sale_date &lt; <span class="hljs-string">'2023-02-01'</span>;
+</div></code></pre>
+<h3 id="5-ajout-de-nouvelles-partitions">5. Ajout de Nouvelles Partitions</h3>
+<p>Pour ajouter une nouvelle partition pour avril 2023 :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sales_2023_04 (
+    <span class="hljs-keyword">CHECK</span> (sale_date &gt;= <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-04-01'</span> <span class="hljs-keyword">AND</span> sale_date &lt; <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-05-01'</span>)
+) INHERITS (sales);
+</div></code></pre>
+<p>Mettre à jour la fonction <code>insert_sales_partition</code> pour inclure la nouvelle partition :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> <span class="hljs-keyword">REPLACE</span> <span class="hljs-keyword">FUNCTION</span> insert_sales_partition()
+<span class="hljs-keyword">RETURNS</span> <span class="hljs-keyword">TRIGGER</span> <span class="hljs-keyword">AS</span> $$
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">IF</span> (NEW.sale_date &gt;= <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-01-01'</span> <span class="hljs-keyword">AND</span> NEW.sale_date &lt; <span class="hljs-built_in">DATE</span> <span class="hljs-string">'2023-02-01'</span>) <span class="hljs-keyword">THEN</span>
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_01 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSIF (NEW.sale_date &gt;= DATE '2023-02-01' AND NEW.sale_date &lt; DATE '2023-03-01') THEN
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_02 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSIF (NEW.sale_date &gt;= DATE '2023-03-01' AND NEW.sale_date &lt; DATE '2023-04-01') THEN
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_03 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSIF (NEW.sale_date &gt;= DATE '2023-04-01' AND NEW.sale_date &lt; DATE '2023-05-01') THEN
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales_2023_04 <span class="hljs-keyword">VALUES</span> (NEW.*);
+    ELSE
+        RAISE EXCEPTION 'Date out of range. Fix the insert_sales_partition function!';
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">IF</span>;
+    RETURN NULL;
+<span class="hljs-keyword">END</span>;
+$$ LANGUAGE plpgsql;
+</div></code></pre>
+<h3 id="lev%C3%A9e-un-exception">levée un exception -&gt;</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> sales (sale_date, amount) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'2023-05-01'</span>,<span class="hljs-number">5</span>);
+</div></code></pre>
+
+</body>
+
+</html>

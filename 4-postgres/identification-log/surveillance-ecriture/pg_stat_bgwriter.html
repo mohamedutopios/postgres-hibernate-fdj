@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>pg_stat_bgwriter.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>La vue système <code>pg_stat_bgwriter</code> dans PostgreSQL fournit des statistiques sur les activités du processus de fond (background writer) et des checkpoints. Le background writer est responsable de l'écriture des buffers modifiés (sales) sur le disque, contribuant ainsi à maintenir la performance du système en réduisant la charge d'écriture lors des checkpoints.</p>
+<h3 id="utilit%C3%A9-de-pgstatbgwriter">Utilité de <code>pg_stat_bgwriter</code></h3>
+<p>Les statistiques fournies par <code>pg_stat_bgwriter</code> sont utiles pour :</p>
+<ol>
+<li><strong>Surveiller l'efficacité du background writer</strong> : Comprendre combien de pages sont écrites par le background writer par rapport aux checkpoints.</li>
+<li><strong>Optimiser les paramètres de performance</strong> : Ajuster les paramètres de configuration pour améliorer la performance du système en répartissant les écritures de manière plus uniforme.</li>
+<li><strong>Diagnostiquer les problèmes de performance d'I/O</strong> : Identifier les éventuels goulets d'étranglement liés aux écritures sur disque.</li>
+</ol>
+<h3 id="structure-de-pgstatbgwriter">Structure de <code>pg_stat_bgwriter</code></h3>
+<p>Voici une description des colonnes disponibles dans <code>pg_stat_bgwriter</code> :</p>
+<ul>
+<li><strong>checkpoints_timed</strong> : Nombre de checkpoints déclenchés par <code>checkpoint_timeout</code>.</li>
+<li><strong>checkpoints_req</strong> : Nombre de checkpoints déclenchés par la demande de journaux de transactions (WAL).</li>
+<li><strong>checkpoint_write_time</strong> : Temps total en millisecondes passé à écrire des fichiers pendant les checkpoints.</li>
+<li><strong>checkpoint_sync_time</strong> : Temps total en millisecondes passé à synchroniser les fichiers (flush) pendant les checkpoints.</li>
+<li><strong>buffers_checkpoint</strong> : Nombre de buffers écrits pendant les checkpoints.</li>
+<li><strong>buffers_clean</strong> : Nombre de buffers écrits par le background writer.</li>
+<li><strong>maxwritten_clean</strong> : Nombre de fois où le background writer s'est arrêté parce qu'il avait atteint la limite de pages à écrire (<code>bgwriter_lru_maxpages</code>).</li>
+<li><strong>buffers_backend</strong> : Nombre de buffers écrits directement par les processus de backend.</li>
+<li><strong>buffers_alloc</strong> : Nombre de buffers alloués.</li>
+<li><strong>stats_reset</strong> : Horodatage du dernier reset des statistiques.</li>
+</ul>
+<h3 id="exemple-de-consultation-de-pgstatbgwriter">Exemple de Consultation de <code>pg_stat_bgwriter</code></h3>
+<p>Vous pouvez exécuter une simple requête pour obtenir les statistiques du background writer :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> pg_stat_bgwriter;
+</div></code></pre>
+<h3 id="interpr%C3%A9tation-des-donn%C3%A9es">Interprétation des Données</h3>
+<p>Voici comment interpréter certaines des statistiques fournies par <code>pg_stat_bgwriter</code> :</p>
+<ol>
+<li>
+<p><strong>checkpoints_timed</strong> et <strong>checkpoints_req</strong> :</p>
+<ul>
+<li>Ces valeurs indiquent combien de checkpoints ont été déclenchés automatiquement par le délai (timed) et combien ont été déclenchés par la demande de journaux de transactions (requested). Un nombre élevé de <code>checkpoints_req</code> peut indiquer une activité intensive sur les transactions.</li>
+</ul>
+</li>
+<li>
+<p><strong>checkpoint_write_time</strong> et <strong>checkpoint_sync_time</strong> :</p>
+<ul>
+<li>Ces valeurs montrent combien de temps PostgreSQL a passé à écrire et à synchroniser les fichiers pendant les checkpoints. Des temps élevés peuvent indiquer des problèmes de performance d'I/O.</li>
+</ul>
+</li>
+<li>
+<p><strong>buffers_checkpoint</strong> et <strong>buffers_clean</strong> :</p>
+<ul>
+<li><code>buffers_checkpoint</code> montre le nombre de buffers écrits pendant les checkpoints, tandis que <code>buffers_clean</code> montre le nombre de buffers écrits par le background writer. Si <code>buffers_checkpoint</code> est beaucoup plus élevé que <code>buffers_clean</code>, cela peut indiquer que le background writer ne parvient pas à suivre le rythme des modifications, entraînant une charge élevée lors des checkpoints.</li>
+</ul>
+</li>
+<li>
+<p><strong>buffers_backend</strong> :</p>
+<ul>
+<li>Ce chiffre indique le nombre de buffers que les processus de backend ont dû écrire eux-mêmes. Un nombre élevé peut indiquer que le background writer n'est pas capable de maintenir les buffers propres, forçant les processus de backend à faire ce travail, ce qui peut impacter les performances.</li>
+</ul>
+</li>
+<li>
+<p><strong>maxwritten_clean</strong> :</p>
+<ul>
+<li>Indique le nombre de fois où le background writer a atteint sa limite de pages à écrire (<code>bgwriter_lru_maxpages</code>). Un nombre élevé peut suggérer que la limite est trop basse et que vous pourriez bénéficier de l'augmenter.</li>
+</ul>
+</li>
+</ol>
+<h3 id="exemple-de-r%C3%A9glage-des-param%C3%A8tres-de-performance">Exemple de Réglage des Paramètres de Performance</h3>
+<p>Si vous constatez des problèmes de performance liés aux écritures, vous pouvez ajuster certains paramètres de configuration dans <code>postgresql.conf</code> pour améliorer la situation :</p>
+<ol>
+<li>
+<p><strong>bgwriter_delay</strong> :</p>
+<ul>
+<li>Intervalle de temps entre deux passages du background writer. Par défaut, il est de 200ms.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-attr">bgwriter_delay</span> = <span class="hljs-number">200</span>ms
+</div></code></pre>
+</li>
+<li>
+<p><strong>bgwriter_lru_maxpages</strong> :</p>
+<ul>
+<li>Nombre maximal de pages que le background writer peut écrire à chaque passage.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-attr">bgwriter_lru_maxpages</span> = <span class="hljs-number">100</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>bgwriter_lru_multiplier</strong> :</p>
+<ul>
+<li>Multiplie le nombre de pages à nettoyer en fonction de la demande.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-attr">bgwriter_lru_multiplier</span> = <span class="hljs-number">2.0</span>
+</div></code></pre>
+</li>
+</ol>
+<h3 id="conclusion">Conclusion</h3>
+<p>La vue <code>pg_stat_bgwriter</code> est un outil précieux pour surveiller et optimiser les activités d'écriture en arrière-plan dans PostgreSQL. En utilisant ces statistiques, vous pouvez ajuster les paramètres de configuration pour améliorer les performances de votre base de données, réduire les charges d'écriture pendant les checkpoints et identifier les éventuels problèmes de performance d'I/O.</p>
+
+</body>
+
+</html>

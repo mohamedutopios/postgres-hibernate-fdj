@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>demo.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <h3 id="%C3%A9tape-1--configurer-sharedbuffers-%C3%A0-128-mb">Étape 1 : Configurer <code>shared_buffers</code> à 128 MB</h3>
+<ol>
+<li>
+<p><strong>Modifier <code>postgresql.conf</code></strong></p>
+<p>Ouvrez le fichier de configuration :</p>
+<pre class="hljs"><code><div>sudo nano /etc/postgresql/14/main/postgresql.conf
+</div></code></pre>
+<p>Modifiez ou ajoutez la ligne suivante :</p>
+<pre class="hljs"><code><div><span class="hljs-attr">shared_buffers</span> = <span class="hljs-string">'128MB'</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Recharger la Configuration</strong></p>
+<p>Rechargez PostgreSQL pour appliquer les changements :</p>
+<pre class="hljs"><code><div>sudo systemctl reload postgresql
+</div></code></pre>
+</li>
+</ol>
+<h3 id="%C3%A9tape-2--ex%C3%A9cuter-explain-analyze-avec-sharedbuffers-%C3%A0-128-mb">Étape 2 : Exécuter <code>EXPLAIN ANALYZE</code> avec <code>shared_buffers</code> à 128 MB</h3>
+<ol>
+<li>
+<p><strong>Créer une Table de Test et Insérer des Données</strong></p>
+<p>Connectez-vous à PostgreSQL et créez une table de test :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> test_table (
+    <span class="hljs-keyword">id</span> <span class="hljs-built_in">SERIAL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    <span class="hljs-keyword">data</span> <span class="hljs-built_in">TEXT</span>
+);
+</div></code></pre>
+<p>Insérez des données pour créer une charge de travail initiale :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">DO</span> $$ 
+<span class="hljs-keyword">BEGIN</span> 
+    <span class="hljs-keyword">FOR</span> i <span class="hljs-keyword">IN</span> <span class="hljs-number">1.</span><span class="hljs-number">.100000</span> <span class="hljs-keyword">LOOP</span> 
+        <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> test_table (<span class="hljs-keyword">data</span>) <span class="hljs-keyword">VALUES</span> (<span class="hljs-keyword">md5</span>(random()::<span class="hljs-built_in">text</span>)); 
+    <span class="hljs-keyword">END</span> <span class="hljs-keyword">LOOP</span>; 
+<span class="hljs-keyword">END</span> $$;
+</div></code></pre>
+</li>
+<li>
+<p><strong>Exécuter <code>EXPLAIN ANALYZE</code></strong></p>
+<p>Exécutez <code>EXPLAIN ANALYZE</code> pour une requête représentative :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">EXPLAIN</span> (<span class="hljs-keyword">ANALYZE</span>, BUFFERS) <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> test_table <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span> = <span class="hljs-number">1</span>;
+</div></code></pre>
+<p>Notez les résultats, en particulier les statistiques de buffers.</p>
+</li>
+</ol>
+<h3 id="exemple-de-r%C3%A9sultat-avec-sharedbuffers-%C3%A0-128-mb">Exemple de Résultat avec <code>shared_buffers</code> à 128 MB</h3>
+<pre class="hljs"><code><div>Seq Scan on test_table  (cost=0.00..431.00 rows=10000 width=37) (actual time=0.031..4.258 rows=10000 loops=1)
+  Buffers: shared hit=4 read=30
+Planning Time: 0.145 ms
+Execution Time: 4.529 ms
+</div></code></pre>
+<h3 id="%C3%A9tape-3--configurer-sharedbuffers-%C3%A0-1-gb">Étape 3 : Configurer <code>shared_buffers</code> à 1 GB</h3>
+<ol>
+<li>
+<p><strong>Modifier <code>postgresql.conf</code></strong></p>
+<p>Ouvrez le fichier de configuration :</p>
+<pre class="hljs"><code><div>sudo nano /etc/postgresql/14/main/postgresql.conf
+</div></code></pre>
+<p>Modifiez ou ajoutez la ligne suivante :</p>
+<pre class="hljs"><code><div><span class="hljs-attr">shared_buffers</span> = <span class="hljs-string">'1GB'</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Recharger la Configuration</strong></p>
+<p>Rechargez PostgreSQL pour appliquer les changements :</p>
+<pre class="hljs"><code><div>sudo systemctl reload postgresql
+</div></code></pre>
+</li>
+</ol>
+<h3 id="%C3%A9tape-4--ex%C3%A9cuter-explain-analyze-avec-sharedbuffers-%C3%A0-1-gb">Étape 4 : Exécuter <code>EXPLAIN ANALYZE</code> avec <code>shared_buffers</code> à 1 GB</h3>
+<ol>
+<li>
+<p><strong>Exécuter à Nouveau <code>EXPLAIN ANALYZE</code></strong></p>
+<p>Exécutez à nouveau la même requête avec <code>EXPLAIN ANALYZE</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">EXPLAIN</span> (<span class="hljs-keyword">ANALYZE</span>, BUFFERS) <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> test_table <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span> = <span class="hljs-number">1</span>;
+</div></code></pre>
+<p>Notez les résultats, en particulier les statistiques de buffers.</p>
+</li>
+</ol>
+<h3 id="exemple-de-r%C3%A9sultat-avec-sharedbuffers-%C3%A0-1-gb">Exemple de Résultat avec <code>shared_buffers</code> à 1 GB</h3>
+<pre class="hljs"><code><div>Seq Scan on test_table  (cost=0.00..431.00 rows=10000 width=37) (actual time=0.020..3.850 rows=10000 loops=1)
+  Buffers: shared hit=34 read=0
+Planning Time: 0.120 ms
+Execution Time: 3.960 ms
+</div></code></pre>
+<h3 id="analyse-des-r%C3%A9sultats">Analyse des Résultats</h3>
+<p>Comparez les résultats obtenus avec <code>shared_buffers</code> à 128 MB et à 1 GB :</p>
+<ol>
+<li><strong>hit</strong> : Une augmentation des <code>hit</code> indique que plus de pages sont trouvées dans le cache, ce qui signifie une meilleure utilisation des buffers.</li>
+<li><strong>read</strong> : Une diminution des <code>read</code> indique que moins de pages doivent être lues à partir du disque, ce qui améliore les performances.</li>
+</ol>
+
+</body>
+
+</html>

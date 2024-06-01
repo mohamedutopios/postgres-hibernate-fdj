@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>pg_blocking_pids.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>La fonction <code>pg_blocking_pids</code> dans PostgreSQL est très utile pour identifier les processus qui bloquent d'autres processus. Cette fonction renvoie une liste des IDs de processus (PIDs) qui bloquent la transaction courante ou une transaction spécifique.</p>
+<h3 id="utilisation-de-pgblockingpids">Utilisation de <code>pg_blocking_pids</code></h3>
+<p>Voici comment vous pouvez utiliser <code>pg_blocking_pids</code> pour diagnostiquer les transactions bloquantes et bloquées.</p>
+<h3 id="%C3%A9tape-1--cr%C3%A9er-les-tables-et-ins%C3%A9rer-des-donn%C3%A9es">Étape 1 : Créer les Tables et Insérer des Données</h3>
+<p>Supposons que vous avez les tables suivantes :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> customers (
+    customer_id <span class="hljs-built_in">SERIAL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    customer_name <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+);
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> orders (
+    order_id <span class="hljs-built_in">SERIAL</span> PRIMARY <span class="hljs-keyword">KEY</span>,
+    customer_id <span class="hljs-built_in">INT</span> <span class="hljs-keyword">REFERENCES</span> customers(customer_id),
+    order_date <span class="hljs-built_in">DATE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+);
+
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> customers (customer_name) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'Alice'</span>), (<span class="hljs-string">'Bob'</span>), (<span class="hljs-string">'Charlie'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> orders (customer_id, order_date) <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'2023-01-01'</span>), (<span class="hljs-number">2</span>, <span class="hljs-string">'2023-01-02'</span>), (<span class="hljs-number">3</span>, <span class="hljs-string">'2023-01-03'</span>);
+</div></code></pre>
+<h3 id="%C3%A9tape-2--simuler-des-transactions-concurrentes">Étape 2 : Simuler des Transactions Concurrentes</h3>
+<h4 id="session-1--appliquer-un-verrou-exclusif">Session 1 : Appliquer un Verrou Exclusif</h4>
+<ol>
+<li>Ouvrez une nouvelle session et exécutez les commandes suivantes :</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">BEGIN</span>;
+
+<span class="hljs-comment">-- Appliquer un verrou exclusif sur une ligne de la table customers</span>
+<span class="hljs-keyword">UPDATE</span> customers <span class="hljs-keyword">SET</span> customer_name = <span class="hljs-string">'Alice Updated'</span> <span class="hljs-keyword">WHERE</span> customer_id = <span class="hljs-number">1</span>;
+</div></code></pre>
+<h4 id="session-2--tenter-de-lire-la-ligne-verrouill%C3%A9e">Session 2 : Tenter de Lire la Ligne Verrouillée</h4>
+<ol start="2">
+<li>Ouvrez une autre session et exécutez les commandes suivantes :</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">BEGIN</span>;
+
+<span class="hljs-comment">-- Tenter de lire la ligne qui est verrouillée par la première transaction</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> customers <span class="hljs-keyword">WHERE</span> customer_id = <span class="hljs-number">1</span>;
+</div></code></pre>
+<p>La deuxième transaction sera bloquée en attendant que la première transaction soit validée ou annulée.</p>
+<h3 id="%C3%A9tape-3--identifier-les-transactions-bloquantes">Étape 3 : Identifier les Transactions Bloquantes</h3>
+<p>Ouvrez une troisième session et exécutez les commandes suivantes pour identifier les transactions bloquantes et bloquées :</p>
+<h4 id="utilisation-de-pgblockingpids">Utilisation de <code>pg_blocking_pids</code></h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> 
+    pid, 
+    pg_blocking_pids(pid) <span class="hljs-keyword">AS</span> blocking_pids
+<span class="hljs-keyword">FROM</span> 
+    pg_stat_activity
+<span class="hljs-keyword">WHERE</span> 
+    state = <span class="hljs-string">'active'</span> 
+    <span class="hljs-keyword">AND</span> pid &lt;&gt; pg_backend_pid();
+</div></code></pre>
+<h3 id="%C3%A9tape-4--interpr%C3%A9ter-les-r%C3%A9sultats">Étape 4 : Interpréter les Résultats</h3>
+<p>Les résultats devraient ressembler à ceci :</p>
+<pre class="hljs"><code><div> pid  | blocking_pids 
+------+---------------
+ 1234 | {5678}
+ 5678 | {}
+</div></code></pre>
+<p>Cela signifie que le processus avec PID <code>1234</code> est bloqué par le processus avec PID <code>5678</code>.</p>
+<h3 id="%C3%A9tape-5--afficher-des-d%C3%A9tails-suppl%C3%A9mentaires">Étape 5 : Afficher des Détails Supplémentaires</h3>
+<p>Pour obtenir des informations plus détaillées sur les transactions bloquantes et bloquées, vous pouvez joindre la table <code>pg_stat_activity</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> 
+    blocked.pid <span class="hljs-keyword">AS</span> blocked_pid, 
+    blocked.usename <span class="hljs-keyword">AS</span> blocked_user, 
+    blocked.query <span class="hljs-keyword">AS</span> blocked_query, 
+    blocking.pid <span class="hljs-keyword">AS</span> blocking_pid, 
+    blocking.usename <span class="hljs-keyword">AS</span> blocking_user, 
+    blocking.query <span class="hljs-keyword">AS</span> blocking_query
+<span class="hljs-keyword">FROM</span> 
+    pg_stat_activity blocked
+<span class="hljs-keyword">JOIN</span> 
+    pg_stat_activity blocking <span class="hljs-keyword">ON</span> blocking.pid = <span class="hljs-keyword">ANY</span>(pg_blocking_pids(blocked.pid))
+<span class="hljs-keyword">WHERE</span> 
+    blocked.state = <span class="hljs-string">'active'</span> 
+    <span class="hljs-keyword">AND</span> blocked.pid &lt;&gt; pg_backend_pid();
+</div></code></pre>
+<h3 id="conclusion">Conclusion</h3>
+<p>En utilisant <code>pg_blocking_pids</code>, vous pouvez identifier rapidement les transactions qui causent des blocages dans PostgreSQL. Cette fonction est particulièrement utile pour diagnostiquer les problèmes de verrouillage et de contention dans votre base de données. Avec les informations fournies par <code>pg_stat_activity</code>, vous pouvez également obtenir des détails sur les requêtes impliquées, ce qui vous permet de prendre des mesures correctives plus facilement.</p>
+
+</body>
+
+</html>

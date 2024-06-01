@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>performance-hibernate.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Pour accroître les performances de Hibernate, plusieurs aspects doivent être pris en compte, allant de la configuration de Hibernate lui-même à la manière dont les requêtes et les transactions sont gérées. Voici une série de meilleures pratiques et techniques pour optimiser les performances de Hibernate :</p>
+<h3 id="1-optimisation-des-requ%C3%AAtes">1. Optimisation des Requêtes</h3>
+<h4 id="a-utiliser-des-requ%C3%AAtes-hqljpql-et-criteria-api-de-mani%C3%A8re-efficace">a. Utiliser des Requêtes HQL/JPQL et Criteria API de manière Efficace</h4>
+<ul>
+<li>
+<p><strong>Sélectionner uniquement les colonnes nécessaires</strong> : Évitez les requêtes <code>SELECT *</code>.</p>
+<pre class="hljs"><code><div>String hql = <span class="hljs-string">"SELECT e.name, e.salary FROM Employee e WHERE e.department = :dept"</span>;
+Query query = session.createQuery(hql);
+query.setParameter(<span class="hljs-string">"dept"</span>, department);
+List&lt;Object[]&gt; results = query.list();
+</div></code></pre>
+</li>
+<li>
+<p><strong>Pagination</strong> : Utilisez la pagination pour limiter le nombre de résultats retournés par une requête.</p>
+<pre class="hljs"><code><div>Query query = session.createQuery(<span class="hljs-string">"FROM Employee"</span>);
+query.setFirstResult(<span class="hljs-number">0</span>);
+query.setMaxResults(<span class="hljs-number">10</span>);
+List&lt;Employee&gt; employees = query.list();
+</div></code></pre>
+</li>
+</ul>
+<h4 id="b-optimiser-les-jointures">b. Optimiser les Jointures</h4>
+<ul>
+<li>
+<p><strong>Utiliser les jointures explicites</strong> au lieu de chargements en cascade pour éviter le &quot;N+1 Select Problem&quot;.</p>
+<pre class="hljs"><code><div>String hql = <span class="hljs-string">"FROM Department d JOIN FETCH d.employees WHERE d.id = :deptId"</span>;
+Query query = session.createQuery(hql);
+query.setParameter(<span class="hljs-string">"deptId"</span>, departmentId);
+Department department = (Department) query.uniqueResult();
+</div></code></pre>
+</li>
+</ul>
+<h3 id="2-cache">2. Cache</h3>
+<h4 id="a-utiliser-le-cache-de-premier-niveau">a. Utiliser le Cache de Premier Niveau</h4>
+<p>Le cache de premier niveau est activé par défaut dans Hibernate. Il permet de réduire les requêtes redondantes en réutilisant les entités chargées dans la session courante.</p>
+<h4 id="b-utiliser-le-cache-de-second-niveau">b. Utiliser le Cache de Second Niveau</h4>
+<p>Configurer et utiliser le cache de second niveau pour améliorer les performances en stockant les entités fréquemment accédées.</p>
+<ul>
+<li>
+<p><strong>Configurer un fournisseur de cache</strong> comme Ehcache, Infinispan ou Hazelcast.</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.cache.use_second_level_cache"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.cache.region.factory_class"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"org.hibernate.cache.ehcache.EhCacheRegionFactory"</span>/&gt;</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Configurer les entités pour utiliser le cache</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@Cacheable</span>
+<span class="hljs-meta">@Cache</span>(usage = CacheConcurrencyStrategy.READ_WRITE)
+<span class="hljs-meta">@Entity</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span> </span>{
+    <span class="hljs-comment">// ...</span>
+}
+</div></code></pre>
+</li>
+</ul>
+<h3 id="3-gestion-des-transactions">3. Gestion des Transactions</h3>
+<h4 id="a-utiliser-les-transactions-de-mani%C3%A8re-efficace">a. Utiliser les Transactions de Manière Efficace</h4>
+<ul>
+<li>
+<p><strong>Regrouper les opérations de lecture/écriture dans des transactions</strong> pour réduire les frais généraux.</p>
+<pre class="hljs"><code><div>Transaction transaction = session.beginTransaction();
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// opérations de lecture/écriture</span>
+    transaction.commit();
+} <span class="hljs-keyword">catch</span> (Exception e) {
+    transaction.rollback();
+}
+</div></code></pre>
+</li>
+</ul>
+<h4 id="b-optimiser-le-flushing-et-le-clear">b. Optimiser le Flushing et le Clear</h4>
+<ul>
+<li>
+<p><strong>Configurer un mode de flush approprié</strong> pour éviter les flushes inutiles.</p>
+<pre class="hljs"><code><div>session.setFlushMode(FlushMode.MANUAL);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Utiliser <code>session.clear()</code> pour éviter l'accumulation d'entités dans la session</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; entities.size(); i++) {
+    session.save(entities.get(i));
+    <span class="hljs-keyword">if</span> (i % batchSize == <span class="hljs-number">0</span>) {
+        session.flush();
+        session.clear();
+    }
+}
+</div></code></pre>
+</li>
+</ul>
+<h3 id="4-batch-processing">4. Batch Processing</h3>
+<h4 id="a-activer-et-configurer-le-traitement-par-lots">a. Activer et Configurer le Traitement par Lots</h4>
+<ul>
+<li>
+<p><strong>Configurer les propriétés Hibernate pour le traitement par lots</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.jdbc.batch_size"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"50"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.order_inserts"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.order_updates"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Utiliser les opérations par lots pour les insertions/mises à jour massives</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; entities.size(); i++) {
+    session.save(entities.get(i));
+    <span class="hljs-keyword">if</span> (i % batchSize == <span class="hljs-number">0</span>) {
+        session.flush();
+        session.clear();
+    }
+}
+</div></code></pre>
+</li>
+</ul>
+<h3 id="5-optimisation-de-la-configuration">5. Optimisation de la Configuration</h3>
+<h4 id="a-configuration-des-propri%C3%A9t%C3%A9s-hibernate">a. Configuration des Propriétés Hibernate</h4>
+<ul>
+<li>
+<p><strong>Configurer les propriétés appropriées dans <code>hibernate.cfg.xml</code> ou <code>application.properties</code></strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.jdbc.fetch_size"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"50"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.jdbc.batch_size"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"50"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.show_sql"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.format_sql"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"false"</span>/&gt;</span>
+</div></code></pre>
+</li>
+</ul>
+<h3 id="6-utilisation-des-proxies-et-du-lazy-loading">6. Utilisation des Proxies et du Lazy Loading</h3>
+<h4 id="a-activer-le-chargement-paresseux">a. Activer le Chargement Paresseux</h4>
+<ul>
+<li>
+<p><strong>Configurer les associations pour utiliser le chargement paresseux</strong>.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">@OneToMany</span>(fetch = FetchType.LAZY, mappedBy = <span class="hljs-string">"department"</span>)
+<span class="hljs-keyword">private</span> Set&lt;Employee&gt; employees;
+</div></code></pre>
+</li>
+</ul>
+<h4 id="b-utiliser-des-proxies">b. Utiliser des Proxies</h4>
+<ul>
+<li>
+<p><strong>Utiliser des proxies pour éviter le chargement complet des entités associées</strong>.</p>
+<pre class="hljs"><code><div>Department department = session.load(Department<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">departmentId</span>)</span>;
+</div></code></pre>
+</li>
+</ul>
+<h3 id="7-surveillance-et-profilage">7. Surveillance et Profilage</h3>
+<h4 id="a-utiliser-des-outils-de-profilage">a. Utiliser des Outils de Profilage</h4>
+<ul>
+<li><strong>Outils comme VisualVM, YourKit, ou JProfiler</strong> pour surveiller et profiler les performances de votre application Hibernate.</li>
+</ul>
+<h4 id="b-analyser-les-logs-sql">b. Analyser les Logs SQL</h4>
+<ul>
+<li>
+<p><strong>Configurer Hibernate pour générer des logs SQL</strong> et analyser les requêtes pour identifier les problèmes de performance.</p>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.show_sql"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.format_sql"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"hibernate.use_sql_comments"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"true"</span>/&gt;</span>
+</div></code></pre>
+</li>
+</ul>
+<p>Pour plus de détails, vous pouvez consulter la <a href="https://hibernate.org/documentation/">documentation officielle de Hibernate</a>.</p>
+
+</body>
+
+</html>

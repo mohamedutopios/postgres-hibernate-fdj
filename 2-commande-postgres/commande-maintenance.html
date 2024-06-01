@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>commande-maintenance.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Les commandes MDL (Maintenance and Diagnostic Language) dans PostgreSQL sont utilisées pour la maintenance et le diagnostic de la base de données. Voici une liste des commandes MDL les plus courantes avec des exemples pour chaque commande :</p>
+<h3 id="commandes-mdl-pour-postgresql">Commandes MDL pour PostgreSQL</h3>
+<h4 id="1-analyze">1. ANALYZE</h4>
+<p>La commande <code>ANALYZE</code> collecte des statistiques sur les contenus des tables de la base de données, qui sont utilisées par le planificateur de requêtes pour optimiser les performances des requêtes.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ANALYZE</span> nom_de_la_table;
+</div></code></pre>
+<p>Pour analyser toutes les tables de la base de données :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ANALYZE</span>;
+</div></code></pre>
+<h4 id="2-vacuum">2. VACUUM</h4>
+<p>La commande <code>VACUUM</code> nettoie les tables de la base de données en récupérant l'espace inutilisé.</p>
+<pre class="hljs"><code><div>VACUUM nom_de_la_table;
+</div></code></pre>
+<p>Pour effectuer un nettoyage complet et analyser la table :</p>
+<pre class="hljs"><code><div>VACUUM FULL <span class="hljs-keyword">ANALYZE</span> nom_de_la_table;
+</div></code></pre>
+<h4 id="3-reindex">3. REINDEX</h4>
+<p>La commande <code>REINDEX</code> reconstruit les index des tables, ce qui peut améliorer les performances de la base de données.</p>
+<pre class="hljs"><code><div>REINDEX TABLE nom_de_la_table;
+</div></code></pre>
+<p>Pour reconstruire tous les index de la base de données :</p>
+<pre class="hljs"><code><div>REINDEX DATABASE nom_de_la_base;
+</div></code></pre>
+<h4 id="4-cluster">4. CLUSTER</h4>
+<p>La commande <code>CLUSTER</code> réorganise les données d'une table en fonction d'un index, ce qui peut améliorer les performances des requêtes.</p>
+<pre class="hljs"><code><div>CLUSTER nom_de_la_table USING nom_de_l_index;
+</div></code></pre>
+<p>Pour réorganiser toutes les tables marquées pour le clustering dans la base de données actuelle :</p>
+<pre class="hljs"><code><div>CLUSTER;
+</div></code></pre>
+<h4 id="5-explain">5. EXPLAIN</h4>
+<p>La commande <code>EXPLAIN</code> affiche le plan d'exécution d'une requête sans l'exécuter, ce qui permet de comprendre comment PostgreSQL exécute une requête.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> nom_de_la_table <span class="hljs-keyword">WHERE</span> condition;
+</div></code></pre>
+<p>Pour obtenir des informations plus détaillées sur le plan d'exécution :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">ANALYZE</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> nom_de_la_table <span class="hljs-keyword">WHERE</span> condition;
+</div></code></pre>
+<h4 id="6-checkpoint">6. CHECKPOINT</h4>
+<p>La commande <code>CHECKPOINT</code> force la génération d'un point de contrôle, ce qui permet de garantir que toutes les modifications en attente sont écrites sur le disque.</p>
+<pre class="hljs"><code><div>CHECKPOINT;
+</div></code></pre>
+<h4 id="7-pgstatstatements">7. pg_stat_statements</h4>
+<p>L'extension <code>pg_stat_statements</code> permet de suivre les statistiques des requêtes exécutées dans PostgreSQL. Une fois installée, vous pouvez interroger les statistiques.</p>
+<p>Installation de l'extension :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> EXTENSION pg_stat_statements;
+</div></code></pre>
+<p>Consultation des statistiques :</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> pg_stat_statements;
+</div></code></pre>
+<h4 id="8-pgrepack">8. pg_repack</h4>
+<p>L'outil <code>pg_repack</code> permet de réorganiser et de compacter les tables et les index sans bloquer les opérations de lecture et d'écriture.</p>
+<p>Installation et utilisation de <code>pg_repack</code> nécessitent un accès superutilisateur et l'installation de l'extension. Voici un exemple de commande pour compacter une table :</p>
+<pre class="hljs"><code><div>pg_repack -t nom_de_la_table
+</div></code></pre>
+<h3 id="exemples-complets">Exemples complets</h3>
+<h4 id="analyze">ANALYZE</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Analyser une table spécifique</span>
+<span class="hljs-keyword">ANALYZE</span> utilisateurs;
+
+<span class="hljs-comment">-- Analyser toutes les tables</span>
+<span class="hljs-keyword">ANALYZE</span>;
+</div></code></pre>
+<h4 id="vacuum">VACUUM</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Nettoyer une table spécifique</span>
+VACUUM utilisateurs;
+
+<span class="hljs-comment">-- Nettoyer et analyser une table spécifique</span>
+VACUUM FULL <span class="hljs-keyword">ANALYZE</span> utilisateurs;
+
+<span class="hljs-comment">-- Nettoyer toutes les tables</span>
+VACUUM;
+</div></code></pre>
+<h4 id="reindex">REINDEX</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Reconstruire les index d'une table spécifique</span>
+REINDEX TABLE utilisateurs;
+
+<span class="hljs-comment">-- Reconstruire tous les index de la base de données</span>
+REINDEX DATABASE exemple_db;
+</div></code></pre>
+<h4 id="cluster">CLUSTER</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Réorganiser une table en fonction d'un index</span>
+CLUSTER utilisateurs USING idx_utilisateurs_nom;
+
+<span class="hljs-comment">-- Réorganiser toutes les tables marquées pour le clustering</span>
+CLUSTER;
+</div></code></pre>
+<h4 id="explain">EXPLAIN</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Afficher le plan d'exécution d'une requête</span>
+<span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> utilisateurs <span class="hljs-keyword">WHERE</span> age &gt; <span class="hljs-number">25</span>;
+
+<span class="hljs-comment">-- Afficher le plan d'exécution avec analyse</span>
+<span class="hljs-keyword">EXPLAIN</span> <span class="hljs-keyword">ANALYZE</span> <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> utilisateurs <span class="hljs-keyword">WHERE</span> age &gt; <span class="hljs-number">25</span>;
+</div></code></pre>
+<h4 id="checkpoint">CHECKPOINT</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Forcer la génération d'un point de contrôle</span>
+CHECKPOINT;
+</div></code></pre>
+<h4 id="pgstatstatements">pg_stat_statements</h4>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Installer l'extension pg_stat_statements</span>
+<span class="hljs-keyword">CREATE</span> EXTENSION pg_stat_statements;
+
+<span class="hljs-comment">-- Consulter les statistiques des requêtes</span>
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> pg_stat_statements;
+</div></code></pre>
+
+</body>
+
+</html>

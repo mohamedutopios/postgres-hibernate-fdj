@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>operation-maintenance-reparation.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/mohamed/Documents/formation/postgres-hibernate-fdj/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <p>Les opérations de maintenance et de réparation sont essentielles pour assurer la performance, la fiabilité et la santé générale de votre base de données PostgreSQL. Voici une liste complète des opérations de maintenance courantes et des commandes associées :</p>
+<h3 id="1-vacuum">1. Vacuum</h3>
+<p>Le <code>VACUUM</code> est utilisé pour nettoyer les tuples morts (espaces non utilisés) dans les tables. Il existe deux principales variations de cette commande :</p>
+<h4 id="vacuum-normal">Vacuum Normal</h4>
+<pre class="hljs"><code><div>VACUUM table_name;
+</div></code></pre>
+<h4 id="vacuum-full">Vacuum Full</h4>
+<p><code>VACUUM FULL</code> réécrit complètement la table et libère l'espace non utilisé. Cela peut être une opération plus coûteuse en termes de temps et de ressources.</p>
+<pre class="hljs"><code><div>VACUUM FULL table_name;
+</div></code></pre>
+<h4 id="vacuum-analyze">Vacuum Analyze</h4>
+<p>En plus de nettoyer la table, cette commande met à jour les statistiques utilisées par le planificateur de requêtes.</p>
+<pre class="hljs"><code><div>VACUUM <span class="hljs-keyword">ANALYZE</span> table_name;
+</div></code></pre>
+<h3 id="2-analyze">2. Analyze</h3>
+<p>La commande <code>ANALYZE</code> collecte des statistiques sur la distribution des données dans les tables et les index, ce qui aide le planificateur de requêtes à générer des plans d'exécution efficaces.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">ANALYZE</span> table_name;
+</div></code></pre>
+<h3 id="3-reindex">3. Reindex</h3>
+<p>La commande <code>REINDEX</code> est utilisée pour reconstruire les index. Cela peut être nécessaire si un index est corrompu ou s'il est devenu inefficace.</p>
+<h4 id="reindex-une-table">Reindex une Table</h4>
+<pre class="hljs"><code><div>REINDEX TABLE table_name;
+</div></code></pre>
+<h4 id="reindex-une-base-de-donn%C3%A9es">Reindex une Base de Données</h4>
+<pre class="hljs"><code><div>REINDEX DATABASE database_name;
+</div></code></pre>
+<h3 id="4-cluster">4. CLUSTER</h3>
+<p>La commande <code>CLUSTER</code> réorganise une table en fonction d'un index spécifié. Cela peut améliorer les performances des requêtes qui utilisent cet index.</p>
+<pre class="hljs"><code><div>CLUSTER table_name USING index_name;
+</div></code></pre>
+<h3 id="5-pgrepack">5. pg_repack</h3>
+<p><code>pg_repack</code> est un outil externe qui permet de réorganiser et de compacter les tables et les index sans verrouiller la table. Il doit être installé séparément.</p>
+<h4 id="installation-de-pgrepack">Installation de pg_repack</h4>
+<p>Sur une distribution Debian/Ubuntu :</p>
+<pre class="hljs"><code><div>sudo apt-get install pg-repack
+</div></code></pre>
+<h4 id="utilisation-de-pgrepack">Utilisation de pg_repack</h4>
+<pre class="hljs"><code><div>pg_repack -h hostname -U username -d database_name -t table_name
+</div></code></pre>
+<h3 id="6-pgdump-et-pgrestore">6. pg_dump et pg_restore</h3>
+<p>Ces commandes sont utilisées pour sauvegarder et restaurer des bases de données PostgreSQL.</p>
+<h4 id="sauvegarde">Sauvegarde</h4>
+<pre class="hljs"><code><div>pg_dump -U username -h hostname -F c -b -v -f backup_file.backup database_name
+</div></code></pre>
+<h4 id="restauration">Restauration</h4>
+<pre class="hljs"><code><div>pg_restore -U username -h hostname -d database_name -v backup_file.backup
+</div></code></pre>
+<h3 id="7-pgupgrade">7. pg_upgrade</h3>
+<p><code>pg_upgrade</code> est utilisé pour mettre à niveau une instance PostgreSQL vers une version plus récente sans avoir à restaurer une sauvegarde.</p>
+<h4 id="utilisation-de-pgupgrade">Utilisation de pg_upgrade</h4>
+<p>Assurez-vous de lire la documentation spécifique pour les détails d'utilisation et les étapes préalables.</p>
+<pre class="hljs"><code><div>pg_upgrade -b old_bin_dir -B new_bin_dir -d old_data_dir -D new_data_dir -U username
+</div></code></pre>
+<h3 id="8-pgchecksums">8. pg_checksums</h3>
+<p><code>pg_checksums</code> est utilisé pour vérifier et activer les checksums de page, ce qui peut aider à détecter les corruptions de données.</p>
+<h4 id="v%C3%A9rifier-les-checksums">Vérifier les Checksums</h4>
+<pre class="hljs"><code><div>pg_checksums -c -D data_directory
+</div></code></pre>
+<h4 id="activer-les-checksums">Activer les Checksums</h4>
+<pre class="hljs"><code><div>pg_checksums --<span class="hljs-built_in">enable</span> -D data_directory
+</div></code></pre>
+<h3 id="9-autovacuum">9. Autovacuum</h3>
+<p><code>autovacuum</code> est un processus intégré de PostgreSQL qui exécute automatiquement des opérations de VACUUM et ANALYZE pour maintenir la santé de la base de données.</p>
+<h4 id="param%C3%A8tres-de-configuration">Paramètres de Configuration</h4>
+<p>Configurez <code>autovacuum</code> dans <code>postgresql.conf</code> :</p>
+<pre class="hljs"><code><div>autovacuum = on
+autovacuum_max_workers = 3
+autovacuum_naptime = 1min
+autovacuum_vacuum_threshold = 50
+autovacuum_analyze_threshold = 50
+</div></code></pre>
+<h3 id="10-backup-et-restauration-avec-pgbasebackup">10. Backup et Restauration avec pg_basebackup</h3>
+<p><code>pg_basebackup</code> est utilisé pour créer une sauvegarde en ligne d'une instance PostgreSQL.</p>
+<h4 id="cr%C3%A9ation-dune-sauvegarde">Création d'une Sauvegarde</h4>
+<pre class="hljs"><code><div>pg_basebackup -h hostname -U username -D backup_directory -Fp -Xs -v
+</div></code></pre>
+<p>Pour des informations plus détaillées, consultez la <a href="https://www.postgresql.org/docs/current/">documentation officielle de PostgreSQL</a>.</p>
+
+</body>
+
+</html>
